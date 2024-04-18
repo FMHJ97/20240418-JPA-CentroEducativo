@@ -1,10 +1,10 @@
 package tablaEstudiante.view;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import tablaEstudiante.controladores.ControladorEstudianteJPA;
+import tablaEstudiante.controladores.ControladorTipologiaSexoJPA;
 import tablaEstudiante.entities.Estudiante;
 import tablaEstudiante.entities.TipologiaSexo;
 
@@ -101,7 +101,11 @@ public class PanelEstudiante extends JPanel {
 	 * 
 	 */
 	private void loadAllTipologiaSexo() {
-		
+		List<TipologiaSexo> lista = (List<TipologiaSexo>) ControladorTipologiaSexoJPA
+				.getInstance().findAll();
+		for (TipologiaSexo ts : lista) {
+			this.jCBSexo.addItem(ts);
+		}
 	}
 	
 	/**
@@ -139,28 +143,44 @@ public class PanelEstudiante extends JPanel {
 	 * 
 	 */
 	private void cargarSiguiente() {
-		
+		String str = this.panelDatos.getJtfId();
+		if (!str.trim().equals("")) {
+			int idActual = Integer.parseInt(str);
+			Estudiante e = (Estudiante) ControladorEstudianteJPA
+					.getInstance().findNext(idActual);
+			muestraEnPantalla(e);
+		}
 	}
 	
 	/**
 	 * 
 	 */
 	private void cargarAnterior() {
-		
+		String str = this.panelDatos.getJtfId();
+		if (!str.trim().equals("")) {
+			int idActual = Integer.parseInt(str);
+			Estudiante e = (Estudiante) ControladorEstudianteJPA
+					.getInstance().findPrevious(idActual);
+			muestraEnPantalla(e);
+		}
 	}
 	
 	/**
 	 * 
 	 */
 	private void cargarUltimo() {
-		
+		Estudiante e = (Estudiante) ControladorEstudianteJPA
+				.getInstance().findLast();
+		muestraEnPantalla(e);
 	}
 	
 	/**
 	 * 
 	 */
 	private void cargarPrimero() {
-		
+		Estudiante e = (Estudiante) ControladorEstudianteJPA
+				.getInstance().findFirst();
+		muestraEnPantalla(e);
 	}
 	
 	/**
@@ -168,7 +188,42 @@ public class PanelEstudiante extends JPanel {
 	 * @param o
 	 */
 	private void muestraEnPantalla(Estudiante o) {
-		
+		if (o != null) {
+			this.panelDatos.setJtfId(String.valueOf(o.getId()));
+			this.panelDatos.setJtfNombre(o.getNombre());
+			this.panelDatos.setJtfApellido1(o.getApellido1());
+			this.panelDatos.setJtfApellido2(o.getApellido2());
+			this.panelDatos.setJtfDni(o.getDni());
+			this.panelDatos.setJtfDireccion(o.getDireccion());
+			this.panelDatos.setJtfEmail(o.getEmail());
+			this.panelDatos.setJtfTelefono(o.getTelefono());
+			this.panelDatos.setJtfColor(o.getColorPreferido());
+			
+			// Si el id del elemento jcombobox en la posición i es igual a
+			// el id del objeto TipologiaSexo, seleccionamos dicho item.
+			for (int i = 0; i < jCBSexo.getItemCount(); i++) {
+				if (jCBSexo.getItemAt(i).getId() == o.getIdTipologiaSexo()) {
+					jCBSexo.setSelectedIndex(i);
+				}
+			}
+			
+			// Mostramos la posible imagen del registro actual.
+			this.panelDatos.setImagen(o.getImagen());
+			
+			// Mostramos el posible color preferido del registro actual.
+			try {
+				if (o.getColorPreferido() != null) {
+					Color color = Color.decode(o.getColorPreferido());
+					this.panelDatos.setColor(color);
+				} else {
+					this.panelDatos.setColor(null);
+					this.panelDatos.setJtfColor("");
+				}
+			} catch (NumberFormatException e) {
+				this.panelDatos.setColor(null);
+				this.panelDatos.setJtfColor("");
+			}
+		}
 	}
 
 }

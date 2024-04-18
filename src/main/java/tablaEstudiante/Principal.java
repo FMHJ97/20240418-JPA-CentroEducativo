@@ -22,7 +22,6 @@ public class Principal extends JFrame {
 		
 		this.setBounds(100, 100, 700, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
 		
 		PanelTablaEstudiante panel = new PanelTablaEstudiante();
 		
