@@ -1,6 +1,7 @@
 package tablaEstudiante.view;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import tablaEstudiante.controladores.ControladorEstudianteJPA;
@@ -112,14 +113,89 @@ public class PanelEstudiante extends JPanel {
 	 * 
 	 */
 	private void eliminar() {
-		
+		String respuestas[] = new String[] { "Sí", "No" };
+		int opcionElegida = JOptionPane.showOptionDialog(null,
+				"¿Realmente desea eliminar el registro?",
+				"Eliminación de Estudiante", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE, null,
+				respuestas, respuestas[1]);
+
+		if (opcionElegida == 0) {	// Si la opción es 0 (= Si).
+			
+			String str = this.panelDatos.getJtfId();
+			if (!str.trim().equals("")) {
+				int idActual = Integer.parseInt(str);
+				ControladorEstudianteJPA.getInstance()
+					.deleteEstudiante(idActual);
+				
+				// A continuación, mostraremos en pantalla el registro
+				// siguiente.
+				Estudiante actual = (Estudiante) ControladorEstudianteJPA
+						.getInstance().findNext(idActual);
+				
+				// Si hay registro, es decir, el registro borrado es
+				// ocupado por su siguiente registro (id).
+				if (actual != null) {
+					muestraEnPantalla(actual);
+				} else {
+					// Si hay no registro, miramos si hay registro anterior
+					// al registro borrado.
+					actual = (Estudiante) ControladorEstudianteJPA
+							.getInstance().findPrevious(idActual);
+					if (actual != null) {
+						muestraEnPantalla(actual);
+					} else {
+						// Llegados a este punto, no hay registros previos
+						// ni posteriores.
+						nuevo();
+					}
+					
+				}
+			}
+		}
 	}
 	
 	/**
 	 * 
 	 */
 	private void guardar() {
+
+		Estudiante o = new Estudiante();
+		o.setNombre(this.panelDatos.getJtfNombre());
+		o.setApellido1(this.panelDatos.getJtfApellido1());
+		o.setApellido2(this.panelDatos.getJtfApellido2());
+		o.setDni(this.panelDatos.getJtfDni());
+		o.setDireccion(this.panelDatos.getJtfDireccion());
+		o.setEmail(this.panelDatos.getJtfEmail());
+		o.setTelefono(this.panelDatos.getJtfTelefono());
+
+		o.setImagen(this.panelDatos.imagenEnArrayDeBytes);
 		
+		// Guardamos el color.
+		if (!this.panelDatos.getJtfColor().trim().equals("")) {
+			o.setColorPreferido(this.panelDatos.getJtfColor());
+		} else {
+			o.setColorPreferido(null);
+		}
+		
+		// Como el item seleccionado del comboBox es tipo Object, realizamos
+		// un casteo TipologiaSexo para obtener un objeto TipologiaSexo.
+		// A continuación, obtenemos el id TipologiaSexo respectivo.
+		int tipologiaSexoId = ((TipologiaSexo) jCBSexo.getSelectedItem()).getId();
+		o.setIdTipologiaSexo(tipologiaSexoId);
+		
+		String str = this.panelDatos.getJtfId();
+		if (!str.trim().equals("")) {
+			
+			o.setId(Integer.parseInt(str));
+			ControladorEstudianteJPA.getInstance()
+				.updateEstudiante(o);
+		} else {
+			ControladorEstudianteJPA.getInstance()
+				.insertEstudiante(o);
+			muestraEnPantalla(o);
+		}
+
 	}
 	
 	/**
@@ -187,7 +263,7 @@ public class PanelEstudiante extends JPanel {
 	 * 
 	 * @param o
 	 */
-	private void muestraEnPantalla(Estudiante o) {
+	public void muestraEnPantalla(Estudiante o) {
 		if (o != null) {
 			this.panelDatos.setJtfId(String.valueOf(o.getId()));
 			this.panelDatos.setJtfNombre(o.getNombre());

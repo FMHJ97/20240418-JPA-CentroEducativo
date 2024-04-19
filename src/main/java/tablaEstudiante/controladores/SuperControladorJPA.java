@@ -39,6 +39,20 @@ public class SuperControladorJPA {
 	
 	/**
 	 * 
+	 * @param id
+	 * @return
+	 */
+	public Entidad findById(int id) {
+		try {
+			return (Entidad) getEntityManager()
+				.find(this.tipoEntidad, id);
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
