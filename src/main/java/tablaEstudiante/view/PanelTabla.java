@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
 
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
@@ -183,6 +184,20 @@ public class PanelTabla extends JPanel {
 			this.panelEstudiante.muestraEnPantalla(est);
 		} catch (Exception e) {
 			this.panelEstudiante.muestraEnPantalla(null);
+		}
+	}
+	
+	/**
+	 * Selecciona y muestra un registro en la tabla según el id del mismo.
+	 * @param e
+	 */
+	public void selectRowById(Estudiante e) {
+		for (int i = 0; i < this.dtm.getRowCount(); i++) {
+			Integer idCell = (Integer) this.dtm.getValueAt(i, 0);
+			if (idCell == e.getId()) {
+				this.table.setRowSelectionInterval(i, i);
+				showSelectedRow();
+			}
 		}
 	}
 	

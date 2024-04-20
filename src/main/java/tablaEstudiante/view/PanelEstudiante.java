@@ -88,6 +88,10 @@ public class PanelEstudiante extends JPanel {
 				"Eliminación de Estudiante", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE, null,
 				respuestas, respuestas[1]);
+		
+		// Puntero para seleccionar el posible siguiente o anterior
+		// registro a mostrar.
+		Estudiante actual = null;
 
 		if (opcionElegida == 0) {	// Si la opción es 0 (= Si).
 			
@@ -97,22 +101,27 @@ public class PanelEstudiante extends JPanel {
 				ControladorEstudianteJPA.getInstance()
 					.deleteEstudiante(idActual);
 				
+				// Actualizamos los datos de la Tabla Estudiante.
+				panelTabla.updateTable();
+				
 				// A continuación, mostraremos en pantalla el registro
 				// siguiente.
-				Estudiante actual = (Estudiante) ControladorEstudianteJPA
+				actual = (Estudiante) ControladorEstudianteJPA
 						.getInstance().findNext(idActual);
 				
 				// Si hay registro, es decir, el registro borrado es
 				// ocupado por su siguiente registro (id).
 				if (actual != null) {
-					muestraEnPantalla(actual);
+					// Seleccionamos el registro.
+					this.panelTabla.selectRowById(actual);
 				} else {
 					// Si hay no registro, miramos si hay registro anterior
 					// al registro borrado.
 					actual = (Estudiante) ControladorEstudianteJPA
 							.getInstance().findPrevious(idActual);
 					if (actual != null) {
-						muestraEnPantalla(actual);
+						// Seleccionamos el registro.
+						this.panelTabla.selectRowById(actual);
 					} else {
 						// Llegados a este punto, no hay registros previos
 						// ni posteriores.
@@ -122,9 +131,6 @@ public class PanelEstudiante extends JPanel {
 				}
 			}
 		}
-		
-		// Actualizamos los datos de la Tabla Estudiante.
-		panelTabla.updateTable();
 	}
 	
 	/**
@@ -170,6 +176,9 @@ public class PanelEstudiante extends JPanel {
 		
 		// Actualizamos los datos de la Tabla Estudiante.
 		panelTabla.updateTable();
+		
+		// Seleccionamos el registro insertado o modificado.
+		this.panelTabla.selectRowById(o);
 	}
 	
 	/**
