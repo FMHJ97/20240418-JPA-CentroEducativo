@@ -55,101 +55,34 @@ public class PanelDatosPersonales extends JPanel {
 	JColorChooser jColorChooser;
 	JPanel panel;
 	Color colorPanel;
+	private JButton btnSave;
+	private JButton btnDelete;
+	private JButton btnNew;
 	
-	private Runnable runnableMostrarPrimerRegistro;
-	private Runnable runnableMostrarSiguienteRegistro;
-	private Runnable runnableMostrarAnteriorRegistro;
-	private Runnable runnableMostrarUltimoRegistro;
-	private Runnable runnableNuevoRegistro;
-	private Runnable runnableGuardarRegistro;
-	private Runnable runnableEliminarRegistro;
+	private Runnable runnableNew;
+	private Runnable runnableSave;
+	private Runnable runnableDelete;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelDatosPersonales() {
 		setLayout(new BorderLayout(0, 0));
-		
-		JToolBar toolBar = new JToolBar();
-		add(toolBar, BorderLayout.NORTH);
-		
-		JButton btnPrimero = new JButton("");
-		btnPrimero.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableMostrarPrimerRegistro.run();
-			}
-		});
-		btnPrimero.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/gotostart.png")));
-		toolBar.add(btnPrimero);
-		
-		JButton btnAnterior = new JButton("");
-		btnAnterior.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableMostrarAnteriorRegistro.run();
-			}
-		});
-		btnAnterior.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/previous.png")));
-		toolBar.add(btnAnterior);
-		
-		JButton btnSiguiente = new JButton("");
-		btnSiguiente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableMostrarSiguienteRegistro.run();
-			}
-		});
-		btnSiguiente.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/next.png")));
-		toolBar.add(btnSiguiente);
-		
-		JButton btnUltimo = new JButton("");
-		btnUltimo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableMostrarUltimoRegistro.run();
-			}
-		});
-		btnUltimo.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/gotoend.png")));
-		toolBar.add(btnUltimo);
-		
-		JButton btnNuevo = new JButton("");
-		btnNuevo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableNuevoRegistro.run();
-			}
-		});
-		btnNuevo.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/nuevo.png")));
-		toolBar.add(btnNuevo);
-		
-		JButton btnGuardar = new JButton("");
-		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableGuardarRegistro.run();
-			}
-		});
-		btnGuardar.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/guardar.png")));
-		toolBar.add(btnGuardar);
-		
-		JButton btnEliminar = new JButton("");
-		btnEliminar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runnableEliminarRegistro.run();
-			}
-		});
-		btnEliminar.setIcon(new ImageIcon(PanelDatosPersonales.class.getResource("/tablaEstudiante/res/eliminar.png")));
-		toolBar.add(btnEliminar);
-		
+				
 		panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 361, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{0, 0, 361, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		jlbTitulo = new JLabel("Titulo del Componente");
-		jlbTitulo.setFont(new Font("Dialog", Font.BOLD, 18));
+		jlbTitulo.setFont(new Font("Dialog", Font.BOLD, 22));
 		GridBagConstraints gbc_jlbTitulo = new GridBagConstraints();
 		gbc_jlbTitulo.insets = new Insets(15, 0, 15, 0);
-		gbc_jlbTitulo.gridwidth = 3;
+		gbc_jlbTitulo.gridwidth = 5;
 		gbc_jlbTitulo.gridx = 0;
 		gbc_jlbTitulo.gridy = 0;
 		panel.add(jlbTitulo, gbc_jlbTitulo);
@@ -167,6 +100,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfId.setEnabled(false);
 		jtfId.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfId = new GridBagConstraints();
+		gbc_jtfId.gridwidth = 3;
 		gbc_jtfId.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfId.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfId.gridx = 1;
@@ -186,6 +120,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfNombre = new JTextField();
 		jtfNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfNombre = new GridBagConstraints();
+		gbc_jtfNombre.gridwidth = 3;
 		gbc_jtfNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfNombre.gridx = 1;
@@ -224,7 +159,7 @@ public class PanelDatosPersonales extends JPanel {
 		gbc_jspImagen.gridheight = 3;
 		gbc_jspImagen.insets = new Insets(0, 5, 5, 10);
 		gbc_jspImagen.fill = GridBagConstraints.BOTH;
-		gbc_jspImagen.gridx = 2;
+		gbc_jspImagen.gridx = 4;
 		gbc_jspImagen.gridy = 2;
 		panel.add(jspImagen, gbc_jspImagen);
 		
@@ -240,6 +175,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfApellido1 = new JTextField();
 		jtfApellido1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfApellido1 = new GridBagConstraints();
+		gbc_jtfApellido1.gridwidth = 3;
 		gbc_jtfApellido1.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfApellido1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfApellido1.gridx = 1;
@@ -259,6 +195,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfApellido2 = new JTextField();
 		jtfApellido2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfApellido2 = new GridBagConstraints();
+		gbc_jtfApellido2.gridwidth = 3;
 		gbc_jtfApellido2.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfApellido2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfApellido2.gridx = 1;
@@ -267,7 +204,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfApellido2.setColumns(10);
 		
 		JLabel lblSexo = new JLabel("Sexo:");
-		lblSexo.setFont(new Font("Dialog", Font.BOLD, 15));
+		lblSexo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GridBagConstraints gbc_lblSexo = new GridBagConstraints();
 		gbc_lblSexo.anchor = GridBagConstraints.EAST;
 		gbc_lblSexo.insets = new Insets(0, 0, 5, 5);
@@ -278,6 +215,7 @@ public class PanelDatosPersonales extends JPanel {
 		jcbSexo = new JComboBox<TipologiaSexo>();
 		jcbSexo.setFont(new Font("Dialog", Font.BOLD, 15));
 		GridBagConstraints gbc_jcbSexo = new GridBagConstraints();
+		gbc_jcbSexo.gridwidth = 3;
 		gbc_jcbSexo.insets = new Insets(0, 0, 5, 5);
 		gbc_jcbSexo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jcbSexo.gridx = 1;
@@ -285,6 +223,7 @@ public class PanelDatosPersonales extends JPanel {
 		panel.add(jcbSexo, gbc_jcbSexo);
 		
 		JButton btnCambiarImagen = new JButton("Cambiar Imagen");
+		btnCambiarImagen.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnCambiarImagen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -294,7 +233,7 @@ public class PanelDatosPersonales extends JPanel {
 		GridBagConstraints gbc_btnCambiarImagen = new GridBagConstraints();
 		gbc_btnCambiarImagen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCambiarImagen.insets = new Insets(0, 5, 5, 10);
-		gbc_btnCambiarImagen.gridx = 2;
+		gbc_btnCambiarImagen.gridx = 4;
 		gbc_btnCambiarImagen.gridy = 5;
 		panel.add(btnCambiarImagen, gbc_btnCambiarImagen);
 		
@@ -310,6 +249,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfDni = new JTextField();
 		jtfDni.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfDni = new GridBagConstraints();
+		gbc_jtfDni.gridwidth = 3;
 		gbc_jtfDni.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfDni.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfDni.gridx = 1;
@@ -329,6 +269,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfDireccion = new JTextField();
 		jtfDireccion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfDireccion = new GridBagConstraints();
+		gbc_jtfDireccion.gridwidth = 3;
 		gbc_jtfDireccion.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfDireccion.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfDireccion.gridx = 1;
@@ -348,6 +289,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfEmail = new JTextField();
 		jtfEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfEmail = new GridBagConstraints();
+		gbc_jtfEmail.gridwidth = 3;
 		gbc_jtfEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfEmail.gridx = 1;
@@ -367,6 +309,7 @@ public class PanelDatosPersonales extends JPanel {
 		jtfTelefono = new JTextField();
 		jtfTelefono.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_jtfTelefono = new GridBagConstraints();
+		gbc_jtfTelefono.gridwidth = 3;
 		gbc_jtfTelefono.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfTelefono.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfTelefono.gridx = 1;
@@ -375,10 +318,10 @@ public class PanelDatosPersonales extends JPanel {
 		jtfTelefono.setColumns(10);
 		
 		JLabel lblColorPreferido = new JLabel("Color Preferido:");
-		lblColorPreferido.setFont(new Font("Dialog", Font.BOLD, 15));
+		lblColorPreferido.setFont(new Font("Tahoma", Font.BOLD, 15));
 		GridBagConstraints gbc_lblColorPreferido = new GridBagConstraints();
 		gbc_lblColorPreferido.anchor = GridBagConstraints.EAST;
-		gbc_lblColorPreferido.insets = new Insets(0, 10, 0, 5);
+		gbc_lblColorPreferido.insets = new Insets(0, 10, 5, 5);
 		gbc_lblColorPreferido.gridx = 0;
 		gbc_lblColorPreferido.gridy = 10;
 		panel.add(lblColorPreferido, gbc_lblColorPreferido);
@@ -388,13 +331,15 @@ public class PanelDatosPersonales extends JPanel {
 		jtfColor.setFont(new Font("Dialog", Font.PLAIN, 15));
 		jtfColor.setColumns(10);
 		GridBagConstraints gbc_jtfColor = new GridBagConstraints();
-		gbc_jtfColor.insets = new Insets(0, 0, 0, 5);
+		gbc_jtfColor.gridwidth = 3;
+		gbc_jtfColor.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfColor.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfColor.gridx = 1;
 		gbc_jtfColor.gridy = 10;
 		panel.add(jtfColor, gbc_jtfColor);
 		
 		JButton btnCambiarColor = new JButton("Cambiar Color");
+		btnCambiarColor.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnCambiarColor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -402,9 +347,52 @@ public class PanelDatosPersonales extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_btnCambiarColor = new GridBagConstraints();
-		gbc_btnCambiarColor.gridx = 2;
+		gbc_btnCambiarColor.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCambiarColor.gridx = 4;
 		gbc_btnCambiarColor.gridy = 10;
 		panel.add(btnCambiarColor, gbc_btnCambiarColor);
+		
+		btnNew = new JButton("Nuevo");
+		btnNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runnableNew.run();
+			}
+		});
+		btnNew.setFont(new Font("Tahoma", Font.BOLD, 16));
+		GridBagConstraints gbc_btnNew = new GridBagConstraints();
+		gbc_btnNew.insets = new Insets(25, 0, 0, 5);
+		gbc_btnNew.gridx = 1;
+		gbc_btnNew.gridy = 11;
+		panel.add(btnNew, gbc_btnNew);
+		
+		btnSave = new JButton("Guardar");
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runnableSave.run();
+			}
+		});
+		btnSave.setFont(new Font("Tahoma", Font.BOLD, 16));
+		GridBagConstraints gbc_btnSave = new GridBagConstraints();
+		gbc_btnSave.insets = new Insets(25, 0, 0, 5);
+		gbc_btnSave.gridx = 2;
+		gbc_btnSave.gridy = 11;
+		panel.add(btnSave, gbc_btnSave);
+		
+		btnDelete = new JButton("Eliminar");
+		btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runnableDelete.run();
+			}
+		});
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 16));
+		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
+		gbc_btnDelete.insets = new Insets(25, 0, 0, 5);
+		gbc_btnDelete.gridx = 3;
+		gbc_btnDelete.gridy = 11;
+		panel.add(btnDelete, gbc_btnDelete);
 
 	}
 	
@@ -646,60 +634,28 @@ public class PanelDatosPersonales extends JPanel {
 		this.jtfColor.setText(newJtfColor);;
 	}
 
-	public Runnable getRunnableMostrarPrimerRegistro() {
-		return runnableMostrarPrimerRegistro;
+	public Runnable getRunnableNew() {
+		return runnableNew;
 	}
 
-	public void setRunnableMostrarPrimerRegistro(Runnable runnableMostrarPrimerRegistro) {
-		this.runnableMostrarPrimerRegistro = runnableMostrarPrimerRegistro;
+	public void setRunnableNew(Runnable runnableNew) {
+		this.runnableNew = runnableNew;
 	}
 
-	public Runnable getRunnableMostrarSiguienteRegistro() {
-		return runnableMostrarSiguienteRegistro;
+	public Runnable getRunnableSave() {
+		return runnableSave;
 	}
 
-	public void setRunnableMostrarSiguienteRegistro(Runnable runnableMostrarSiguienteRegistro) {
-		this.runnableMostrarSiguienteRegistro = runnableMostrarSiguienteRegistro;
+	public void setRunnableSave(Runnable runnableSave) {
+		this.runnableSave = runnableSave;
 	}
 
-	public Runnable getRunnableMostrarAnteriorRegistro() {
-		return runnableMostrarAnteriorRegistro;
+	public Runnable getRunnableDelete() {
+		return runnableDelete;
 	}
 
-	public void setRunnableMostrarAnteriorRegistro(Runnable runnableMostrarAnteriorRegistro) {
-		this.runnableMostrarAnteriorRegistro = runnableMostrarAnteriorRegistro;
-	}
-
-	public Runnable getRunnableMostrarUltimoRegistro() {
-		return runnableMostrarUltimoRegistro;
-	}
-
-	public void setRunnableMostrarUltimoRegistro(Runnable runnableMostrarUltimoRegistro) {
-		this.runnableMostrarUltimoRegistro = runnableMostrarUltimoRegistro;
-	}
-
-	public Runnable getRunnableNuevoRegistro() {
-		return runnableNuevoRegistro;
-	}
-
-	public void setRunnableNuevoRegistro(Runnable runnableNuevoRegistro) {
-		this.runnableNuevoRegistro = runnableNuevoRegistro;
-	}
-
-	public Runnable getRunnableGuardarRegistro() {
-		return runnableGuardarRegistro;
-	}
-
-	public void setRunnableGuardarRegistro(Runnable runnableGuardarRegistro) {
-		this.runnableGuardarRegistro = runnableGuardarRegistro;
-	}
-
-	public Runnable getRunnableEliminarRegistro() {
-		return runnableEliminarRegistro;
-	}
-
-	public void setRunnableEliminarRegistro(Runnable runnableEliminarRegistro) {
-		this.runnableEliminarRegistro = runnableEliminarRegistro;
+	public void setRunnableDelete(Runnable runnableDelete) {
+		this.runnableDelete = runnableDelete;
 	}
 
 }

@@ -19,6 +19,19 @@ public class PanelEstudiante extends JPanel {
 	private PanelDatosPersonales panelDatos = new PanelDatosPersonales();
 	JComboBox<TipologiaSexo> jCBSexo = this.panelDatos.getJcbSexo();
 	
+	// Referencia del PanelTabla.
+	// Se usará para actualizar los datos de la tabla.
+	private PanelTabla panelTabla;
+	
+	/**
+	 * Método setter que establece una referencia al JPanel PanelTabla 
+	 * actual.
+	 * @return 
+	 */
+	public PanelTabla setPanelTabla(PanelTabla panelTabla) {
+		return this.panelTabla = panelTabla;
+	}
+	
 	/**
 	 * Create the panel.
 	 */
@@ -30,71 +43,27 @@ public class PanelEstudiante extends JPanel {
 		
 		// Cargamos todos los elementos del jComboBox.
 		loadAllTipologiaSexo();
+	
+		this.panelDatos.setRunnableNew(new Runnable() {
+			@Override
+			public void run() {
+				nuevo();
+			}
+		});
 		
-		cargarPrimero();
+		this.panelDatos.setRunnableSave(new Runnable() {
+			@Override
+			public void run() {
+				guardar();
+			}
+		});
 		
-		// Llama a la ejecución de mostrar Primer Registro.
-		this.panelDatos.setRunnableMostrarPrimerRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						cargarPrimero();
-					}
-				});
-		
-		// Llama a la ejecución de mostrar Ultimo Registro.		
-		this.panelDatos.setRunnableMostrarUltimoRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						cargarUltimo();
-					}
-				});
-
-		// Llama a la ejecución de mostrar Siguiente Registro.		
-		this.panelDatos.setRunnableMostrarSiguienteRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						cargarSiguiente();
-					}
-				});
-		
-		// Llama a la ejecución de mostrar Anterior Registro.		
-		this.panelDatos.setRunnableMostrarAnteriorRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						cargarAnterior();
-					}
-				});
-		
-		// Llama a la ejecución de Nuevo.		
-		this.panelDatos.setRunnableNuevoRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						nuevo();
-					}
-				});
-		
-		// Llama a la ejecución de Guardar.		
-		this.panelDatos.setRunnableGuardarRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						guardar();
-					}
-				});
-		
-		// Llama a la ejecución de Eliminar.		
-		this.panelDatos.setRunnableEliminarRegistro(
-				new Runnable() {
-					@Override
-					public void run() {
-						eliminar();
-					}
-				});
+		this.panelDatos.setRunnableDelete(new Runnable() {
+			@Override
+			public void run() {
+				eliminar();
+			}
+		});
 		
 	}
 	
@@ -153,6 +122,9 @@ public class PanelEstudiante extends JPanel {
 				}
 			}
 		}
+		
+		// Actualizamos los datos de la Tabla Estudiante.
+		panelTabla.updateTable();
 	}
 	
 	/**
@@ -195,7 +167,9 @@ public class PanelEstudiante extends JPanel {
 				.insertEstudiante(o);
 			muestraEnPantalla(o);
 		}
-
+		
+		// Actualizamos los datos de la Tabla Estudiante.
+		panelTabla.updateTable();
 	}
 	
 	/**
@@ -213,50 +187,6 @@ public class PanelEstudiante extends JPanel {
 		this.panelDatos.setImagen(null);
 		this.panelDatos.setJtfColor("");
 		this.panelDatos.setColor(null);
-	}
-	
-	/**
-	 * 
-	 */
-	private void cargarSiguiente() {
-		String str = this.panelDatos.getJtfId();
-		if (!str.trim().equals("")) {
-			int idActual = Integer.parseInt(str);
-			Estudiante e = (Estudiante) ControladorEstudianteJPA
-					.getInstance().findNext(idActual);
-			muestraEnPantalla(e);
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	private void cargarAnterior() {
-		String str = this.panelDatos.getJtfId();
-		if (!str.trim().equals("")) {
-			int idActual = Integer.parseInt(str);
-			Estudiante e = (Estudiante) ControladorEstudianteJPA
-					.getInstance().findPrevious(idActual);
-			muestraEnPantalla(e);
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	private void cargarUltimo() {
-		Estudiante e = (Estudiante) ControladorEstudianteJPA
-				.getInstance().findLast();
-		muestraEnPantalla(e);
-	}
-	
-	/**
-	 * 
-	 */
-	private void cargarPrimero() {
-		Estudiante e = (Estudiante) ControladorEstudianteJPA
-				.getInstance().findFirst();
-		muestraEnPantalla(e);
 	}
 	
 	/**
